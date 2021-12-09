@@ -1,10 +1,10 @@
 const router = require("express").Router();
-const db =  require("../db/db.json")
+const dbFile =  require("../db/db.json")
 const { v1: uuidv1} = require('uuid');
 const fs = require('fs')
 
 router.get("/notes", (req, res) => {
-    return res.json(db)
+    return res.json(dbFile)
      
 })
 
@@ -15,13 +15,14 @@ router.post("/notes", (req, res) => {
         id: uuidv1()
     }
 
-    db.push(note);
+    dbFile.push(note);
     console.log(req.body)
-    // db.push(req.body)
-    fs.writeFile("./db/db.json", JSON.stringify(db), err => {
+    
+    fs.writeFile("./db/db.json", JSON.stringify(dbFile), err => {
         if (err) throw err;
+        console.log(err)
     })
-    return res.json(db)
+    return res.json(dbFile)
 })
 
 module.exports = router;
